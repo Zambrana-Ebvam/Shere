@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Historia de Éxito - Hygeia</title>
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+  <script>
+    // Función para leer parámetros de la URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Muestra la historia correspondiente según el parámetro de la URL
+    document.addEventListener('DOMContentLoaded', () => {
+      const storyId = getQueryParam('story');
+      const stories = document.querySelectorAll('.portfolio-story');
+      stories.forEach(story => {
+        if (story.dataset.story === storyId) {
+          story.style.display = 'block';
+        } else {
+          story.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</head>
+
+<body class="portfolio-details-page">
+
+  <main class="main">
+    <div class="page-title">
+      <div class="container text-center">
+        <h1>Historias de Éxito</h1>
+        <p class="mb-0">Explora las historias de éxito de pacientes atendidos por Hygeia.</p>
+      </div>
+    </div>
+
+    <section id="portfolio-details" class="portfolio-details section">
+      <div class="container">
+        
+        <!-- Historia 1: Daniel Gómez -->
+        <div class="portfolio-story" data-story="daniel" style="display: none;">
+          <div class="row gy-4">
+            <div class="col-lg-8">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="assets/img/historia-cancer.jpg" alt="Daniel Gómez"></div>
+                  <div class="swiper-slide"><img src="assets/img/historia-cancer2.jpg" alt="Daniel en recuperación"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <h3>Detalles del Caso</h3>
+              <ul>
+                <li><strong>Paciente:</strong> Daniel Gómez</li>
+                <li><strong>Edad:</strong> 10 años</li>
+                <li><strong>Condición:</strong> Cáncer infantil</li>
+              </ul>
+              <p>Daniel venció el cáncer tras dos años de tratamiento integral con quimioterapia y seguimiento remoto.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historia 2: Luis Fernández -->
+        <div class="portfolio-story" data-story="luis" style="display: none;">
+          <div class="row gy-4">
+            <div class="col-lg-8">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="assets/img/historia-militar.jpg" alt="Luis Fernández"></div>
+                  <div class="swiper-slide"><img src="assets/img/historia-militar2.jpg" alt="Tratamiento de Luis"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <h3>Detalles del Caso</h3>
+              <ul>
+                <li><strong>Paciente:</strong> Luis Fernández</li>
+                <li><strong>Edad:</strong> 35 años</li>
+                <li><strong>Condición:</strong> Heridas graves en la pierna</li>
+              </ul>
+              <p>Tras un incidente en servicio, Luis recibió cirugía avanzada y fisioterapia para salvar su pierna.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historia 3: Ana Torres -->
+        <div class="portfolio-story" data-story="ana" style="display: none;">
+          <div class="row gy-4">
+            <div class="col-lg-8">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="assets/img/historia-cardiovascular.jpg" alt="Ana Torres"></div>
+                  <div class="swiper-slide"><img src="assets/img/historia-cardiovascular2.jpg" alt="Rehabilitación de Ana"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <h3>Detalles del Caso</h3>
+              <ul>
+                <li><strong>Paciente:</strong> Ana Torres</li>
+                <li><strong>Edad:</strong> 52 años</li>
+                <li><strong>Condición:</strong> Accidente cardiovascular</li>
+              </ul>
+              <p>Ana se recuperó completamente gracias a un programa de rehabilitación intensiva y seguimiento remoto.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>
