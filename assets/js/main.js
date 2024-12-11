@@ -185,6 +185,21 @@
       }
     }
   });
+  /**
+   * Script envio mensaje xD 
+   */
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    const name = document.querySelector("input[name='name']").value;
+    const email = document.querySelector("input[name='email']").value;
+    const subject = document.querySelector("input[name='subject']").value;
+    const message = document.querySelector("textarea[name='message']").value;
+
+    if (!name || !email || !subject || !message) {
+        e.preventDefault();
+        alert("Por favor, completa todos los campos.");
+    }
+});
+
 
   /**
    * Navmenu Scrollspy
