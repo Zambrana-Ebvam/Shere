@@ -1,20 +1,13 @@
-/**
-* Template Name: Gp
-* Template URL: https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/
-* Updated: Aug 15 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 (function() {
   "use strict";
 
   /**
-   * Apply .scrolled class to the body as the page is scrolled down
+   * Añade o quita la clase "scrolled" al body al hacer scroll
    */
   function toggleScrolled() {
     const selectBody = document.querySelector('body');
     const selectHeader = document.querySelector('#header');
+    if (!selectHeader) return;
     if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
     window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
   }
@@ -23,7 +16,7 @@
   window.addEventListener('load', toggleScrolled);
 
   /**
-   * Mobile nav toggle
+   * Toggle del menú móvil
    */
   const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
 
@@ -37,26 +30,13 @@
   }
 
   /**
-   * Hide mobile nav on same-page/hash links
+   * Cerrar el menú móvil al hacer click en un enlace interno
    */
   document.querySelectorAll('#navmenu a').forEach(navmenu => {
     navmenu.addEventListener('click', () => {
       if (document.querySelector('.mobile-nav-active')) {
         mobileNavToogle();
       }
-    });
-
-  });
-
-  /**
-   * Toggle mobile nav dropdowns
-   */
-  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
-      e.preventDefault();
-      this.parentNode.classList.toggle('active');
-      this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
-      e.stopImmediatePropagation();
     });
   });
 
@@ -71,7 +51,7 @@
   }
 
   /**
-   * Scroll top button
+   * Botón de scroll hacia arriba
    */
   let scrollTop = document.querySelector('.scroll-top');
 
@@ -80,19 +60,21 @@
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  if (scrollTop) {
+    scrollTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
+  }
 
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);
 
   /**
-   * Animation on scroll function and init
+   * Animaciones AOS
    */
   function aosInit() {
     AOS.init({
@@ -105,33 +87,27 @@
   window.addEventListener('load', aosInit);
 
   /**
-   * Init swiper sliders
+   * Init Swiper
    */
   function initSwiper() {
     document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
       );
-
-      if (swiperElement.classList.contains("swiper-tab")) {
-        initSwiperWithCustomPagination(swiperElement, config);
-      } else {
-        new Swiper(swiperElement, config);
-      }
+      new Swiper(swiperElement, config);
     });
   }
-
   window.addEventListener("load", initSwiper);
 
   /**
-   * Initiate glightbox
+   * Glightbox
    */
   const glightbox = GLightbox({
     selector: '.glightbox'
   });
 
   /**
-   * Init isotope layout and filters
+   * Isotope
    */
   document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
@@ -160,16 +136,15 @@
         }
       }, false);
     });
-
   });
 
   /**
-   * Initiate Pure Counter
+   * Pure Counter
    */
   new PureCounter();
 
   /**
-   * Correct scrolling position upon page load for URLs containing hash links.
+   * Ajuste de scroll al cargar si hay hash
    */
   window.addEventListener('load', function(e) {
     if (window.location.hash) {
@@ -185,21 +160,68 @@
       }
     }
   });
+
   /**
-   * Script envio mensaje xD 
+   * Envío de correo usando SMTP.js con Elastic Email
+   * Asegúrate de cambiar Username, Password, From, To, Port según tus datos.
    */
-  document.getElementById("contactForm").addEventListener("submit", function (e) {
-    const name = document.querySelector("input[name='name']").value;
-    const email = document.querySelector("input[name='email']").value;
-    const subject = document.querySelector("input[name='subject']").value;
-    const message = document.querySelector("textarea[name='message']").value;
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    if (!name || !email || !subject || !message) {
-        e.preventDefault();
-        alert("Por favor, completa todos los campos.");
-    }
-});
+      const loading = document.querySelector(".loading");
+      const errorMessage = document.querySelector(".error-message");
+      const sentMessage = document.querySelector(".sent-message");
 
+      loading.style.display = "block";
+      errorMessage.style.display = "none";
+      sentMessage.style.display = "none";
+
+      const name = document.querySelector("input[name='name']").value;
+      const email = document.querySelector("input[name='email']").value;
+      const subject = document.querySelector("input[name='subject']").value;
+      const message = document.querySelector("textarea[name='message']").value;
+
+      if (!name || !email || !subject || !message) {
+        loading.style.display = "none";
+        errorMessage.innerText = "Por favor, completa todos los campos.";
+        errorMessage.style.display = "block";
+        return;
+      }
+
+      // Ajustar estos datos a los reales de tu cuenta Elastic Email
+      Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: "610e1160-3530-4e42-a9a0-809e8ec2d76d", // Tu API Key o credencial SMTP
+        Password: "12345678", // Tu contraseña SMTP
+        Port: 465,            // Prueba primero con 465 si SSL es requerido
+        Secure: true,         // Fuerza uso de SSL
+        To: "tu_destinatario@example.com",       // Cambia este correo al que recibirá el mensaje
+        From: "tu_correo_verificado@example.com",// Debe ser un correo verificado en Elastic Email
+        Subject: `Nuevo mensaje de ${name}: ${subject}`,
+        Body: `
+          <p>Has recibido un nuevo mensaje desde el formulario de contacto:</p>
+          <ul>
+            <li><strong>Nombre:</strong> ${name}</li>
+            <li><strong>Correo del visitante:</strong> ${email}</li>
+            <li><strong>Asunto:</strong> ${subject}</li>
+            <li><strong>Mensaje:</strong> ${message}</li>
+          </ul>
+        `
+      })
+      .then(() => {
+        loading.style.display = "none";
+        sentMessage.style.display = "block";
+        contactForm.reset();
+      })
+      .catch((error) => {
+        loading.style.display = "none";
+        errorMessage.innerText = "Hubo un error al enviar el mensaje: " + error.message;
+        errorMessage.style.display = "block";
+      });
+    });
+  }
 
   /**
    * Navmenu Scrollspy
